@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duluth Tourism Recovery Analysis</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 2.5rem; color: #2c3e50; margin-bottom: 10px; }
+        .header p { font-size: 1.1rem; color: #7f8c8d; }
+        .stats-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 40px; 
+        }
+        .stat-card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+            text-align: center;
+        }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: #3498db; margin-bottom: 10px; }
+        .stat-label { font-size: 1rem; color: #7f8c8d; margin-bottom: 5px; }
+        .stat-change { font-size: 0.9rem; color: #27ae60; }
+        .charts-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
+            gap: 30px; 
+            margin-bottom: 40px; 
+        }
+        .chart-card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        }
+        .chart-title { font-size: 1.3rem; font-weight: bold; color: #2c3e50; margin-bottom: 20px; }
+        .insights { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        }
+        .insights h3 { color: #2c3e50; margin-bottom: 20px; }
+        .insight-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 20px; 
+        }
+        .insight-item { 
+            padding: 20px; 
+            background: #f8f9fa; 
+            border-radius: 10px; 
+            border-left: 4px solid #3498db; 
+        }
+        .insight-sector { font-weight: bold; color: #2c3e50; }
+        .insight-value { font-size: 1.5rem; font-weight: bold; color: #3498db; }
+        .insight-details { font-size: 0.9rem; color: #7f8c8d; }
+        .footer { text-align: center; margin-top: 40px; color: #7f8c8d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏔️ Duluth Tourism Recovery Analysis</h1>
+            <p>St. Louis County, Minnesota • 2019-2022 Economic Impact Study</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">$660M</div>
+                <div class="stat-label">Total Tourism Revenue (2022)</div>
+                <div class="stat-change">+33% recovery from 2020</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">967</div>
+                <div class="stat-label">Tourism Establishments</div>
+                <div class="stat-change">+77 businesses since 2020</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">$43.7M</div>
+                <div class="stat-label">Tax Revenue Generated</div>
+                <div class="stat-change">+25% from pandemic low</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">376</div>
+                <div class="stat-label">PDF Pages Processed</div>
+                <div class="stat-change">100% automated extraction</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-title">📈 Revenue Recovery by Year</div>
+                <canvas id="revenueChart" width="400" height="300"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-title">🥧 2022 Revenue by Sector</div>
+                <canvas id="sectorChart" width="400" height="300"></canvas>
+            </div>
+        </div>
+
+        <div class="insights">
+            <h3>🎯 Key Business Intelligence Insights</h3>
+            <div class="insight-grid">
+                <div class="insight-item">
+                    <div class="insight-sector">🍽️ Food Services</div>
+                    <div class="insight-value">$384M</div>
+                    <div class="insight-details">462 establishments • 58% market share</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-sector">🏨 Accommodation</div>
+                    <div class="insight-value">$191M</div>
+                    <div class="insight-details">207 establishments • 29% market share</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-sector">🎯 Recreation</div>
+                    <div class="insight-value">$77M</div>
+                    <div class="insight-details">103 establishments • 12% market share</div>
+                </div>
+                <div class="insight-item">
+                    <div class="insight-sector">🏛️ Museums</div>
+                    <div class="insight-value">$1.8M</div>
+                    <div class="insight-details">16 establishments • <1% market share</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Data Source:</strong> Minnesota Department of Revenue Annual Sales Tax Reports</p>
+            <p><strong>Analysis by:</strong> Nick Christopherson | 
+               <a href="https://github.com/nickchristopherson/duluth-tourism-analysis" style="color: #3498db;">
+                   View Full Project on GitHub
+               </a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Revenue Recovery Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['2019', '2020', '2021', '2022'],
+                datasets: [{
+                    label: 'Total Revenue (Millions)',
+                    data: [660, 495, 580, 660],
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 400,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value + 'M';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Sector Breakdown Chart
+        const sectorCtx = document.getElementById('sectorChart').getContext('2d');
+        new Chart(sectorCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Food Services', 'Accommodation', 'Recreation', 'Museums'],
+                datasets: [{
+                    data: [384, 191, 77, 1.8],
+                    backgroundColor: [
+                        '#3498db',
+                        '#2ecc71', 
+                        '#f39c12',
+                        '#e74c3c'
+                    ],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: { size: 12 }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
